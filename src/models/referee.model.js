@@ -6,7 +6,7 @@ const Referee = sequelize.define("Referee", {
   id: {
     type: DataTypes.INTEGER,
     primarykey: true,
-    autiIncrement: true,
+    autoIncrement: true,
   },
   firstName: {
     type: DataTypes.STRING,

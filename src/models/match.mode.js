@@ -6,7 +6,7 @@ const Match = sequelize.define(
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-      autiIncrement: true,
+      autoIncrement: true,
     },
     homeTeam: {
       type: DataTypes.STRING,
@@ -36,7 +36,7 @@ const Match = sequelize.define(
         "Semi-final",
         "Final",
       ),
-      allowNull:false,
+      allowNull: false,
     },
   },
   {
@@ -44,4 +44,4 @@ const Match = sequelize.define(
     timestamps: false,
   },
 );
-module.exports = Match ;
+module.exports = Match;
