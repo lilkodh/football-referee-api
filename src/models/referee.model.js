@@ -1,4 +1,4 @@
-const sequelize = require("./config/database");
+const sequelize = require("../config/database");
 const { DataTypes } = require("sequelize");
 const Referee = sequelize.define("Referee", {
 
@@ -10,6 +10,7 @@ const Referee = sequelize.define("Referee", {
   },
   firstName: {
     type: DataTypes.STRING,
+    allowNull:false,
   },
   lastName: {
     type: DataTypes.STRING,
@@ -52,3 +53,4 @@ const Referee = sequelize.define("Referee", {
     timestamps: false,
   }
 );
+module.exports = referee ;
