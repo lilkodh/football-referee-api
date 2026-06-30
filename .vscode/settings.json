@@ -1,4 +1,6 @@
 {
-    "eslint.enable": false,
-    "standard.enable": false
+  "eslint.enable": false,
+  "standard.enable": false,
+  "editor.fontSize": 20,
+  "editor.formatOnSave": false
 }

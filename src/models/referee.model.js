@@ -53,4 +53,4 @@ const Referee = sequelize.define("Referee", {
     timestamps: false,
   }
 );
-module.exports = referee ;
+module.exports = Referee ;
