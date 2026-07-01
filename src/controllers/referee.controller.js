@@ -1,32 +1,50 @@
 const { Referee } = require("../models");
 
-
 class RefereeController {
- getAll = async (req,res) =>{
-try{
-    
-    const referees = await Referee.findAll();
-    
-    referees.length === 0 ? res.send('NOTHIN EXIST IN THE DATABASE YET !!') : res.json(referees);
+  getAll = async (req, res) => {
+    try {
+      const referees = await Referee.findAll();
 
-
-}catch(error){
-    res.sendStatus(500).json({
-message: "Somthing Related to Server"
-    });
-
-}
-
- };
- create = async (req,res) =>{
-    try{
-        const referee = await Referee.create(req.body);
-        res.status(201).json(referee);
-
-    }catch(error) {
-
-
+      if (referees.length === 0) {
+        return res.status(404).json({
+          message: "No referees found.",
+        });
+      }
+      res.json(referees);
+    } catch (error) {
+      res.status(500).json({
+        message: "Internal Srver Error",
+      });
     }
- }
+  };
+  create = async (req, res) => {
+    try {
+      const referee = await Referee.create(req.body);
+      res.status(201).json(referee);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Internal Server Error"
+      });
+    }
+  };
+  getById = async (req,res) =>{
+    try{
+        const id = req.params.id
+        const referee = await Referee.findByPk(id);
+       if (referee === null ){
+      return   res.status(404).json({
+            message:`Referee with id ${id} not  found.`
+        });
+       }
+       return res.status(200).json(referee);
+
+    } catch(error) {
+console.error(error);
+  res.status(500).json({
+    message: "Internal Server Error"
+  })
+    }
+  };
 }
 module.exports = new RefereeController();
