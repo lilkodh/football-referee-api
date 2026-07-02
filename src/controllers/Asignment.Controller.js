@@ -1,8 +1,9 @@
-const { Assignment } = require("../models");
+const { Assignment , Referee ,Match} = require("../models");
 class AssignmentController {
   getAll = async (req, res) => {
     try {
-      const assignments = await Assignment.findAll();
+      const assignments = await Assignment.findAll({  include:[Match,Referee]});
+    
       if (assignments.length === 0) {
         return res.status(404).json({
           message: "No Assignments found !!",
