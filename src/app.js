@@ -1,11 +1,12 @@
 const express = require("express");
 const app = express();
-const refereeRoutes = require("./routes/Referee.Routes");
-const MatchesRoutes = require("./routes/Match.Routes");
+const refereesRoute = require("./routes/Referees.Route");
+const MatchesRoute = require("./routes/Match.Route");
+connst = AssignmentsRoute = require("./routes/Assignment.Route")
 app.use(express.json());
-app.use("/referees", refereeRoutes);
-app.use("/matches", MatchesRoutes);
-
+app.use("/referees", refereesRoute);
+app.use("/matches", MatchesRoute);
+app.use("/assignmentes", AssignmentsRoute);
 
 
 module.exports = app ;

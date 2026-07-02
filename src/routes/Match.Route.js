@@ -6,7 +6,7 @@ router.get("/", MatchController.GetAll);
 router.post("/", MatchController.create);
 router.get("/:id", MatchController.getById);
 router.put("/:id", MatchController.update)
-router.delete("/:id", MatchController.delete)
+router.delete("/:id", MatchController.remove)
 
 
 module.exports = router;
