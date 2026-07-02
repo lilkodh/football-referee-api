@@ -1,11 +1,10 @@
 const sequelize = require("../config/database");
 const { DataTypes } = require("sequelize");
-const Referee = sequelize.define("Referee", {
-
-}, {
+const Referee = sequelize.define("Referee", 
+ {
   id: {
     type: DataTypes.INTEGER,
-    primarykey: true,
+    primaryKey: true,
     autoIncrement: true,
   },
   firstName: {
@@ -24,12 +23,10 @@ const Referee = sequelize.define("Referee", {
   confederation: {
     type: DataTypes.ENUM("UEFA", "CONMEBOL", "CAF", "AFC", "CONCACAF", "OFC"),
     allowNull: false,
-    validate:{
-        min:0,
-    }
+   
   },
   category: {
-    tyoe: DataTypes.ENUM(
+    type: DataTypes.ENUM(
       "Referee",
       "Assistant Referee",
       "Fourth Official",
@@ -38,9 +35,12 @@ const Referee = sequelize.define("Referee", {
     ),
     allowNull: false,
   },
-   experince:{
+   experience:{
     type: DataTypes.INTEGER,
     allowNull:false,
+     validate:{
+        min:0,
+    }
 
    },
   status: {

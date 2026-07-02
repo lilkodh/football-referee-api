@@ -24,26 +24,62 @@ class RefereeController {
     } catch (error) {
       console.error(error);
       res.status(500).json({
-        message: "Internal Server Error"
+        message: "Internal Server Error",
       });
     }
   };
-  getById = async (req,res) =>{
-    try{
-        const id = req.params.id
-        const referee = await Referee.findByPk(id);
-       if (referee === null ){
-      return   res.status(404).json({
-            message:`Referee with id ${id} not  found.`
+  getById = async (req, res) => {
+    try {
+      const id = req.params.id;
+      const referee = await Referee.findByPk(id);
+      if (!referee) {
+        return res.status(404).json({
+          message: `Referee with id ${id} not  found.`,
         });
-       }
-       return res.status(200).json(referee);
+      }
+      return res.status(200).json(referee);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Internal Server Error",
+      });
+    }
+  };
+  update = async (req, res) => {
+    try {
+      const id = req.params.id;
+      const referee = await Referee.findByPk(id);
 
-    } catch(error) {
-console.error(error);
-  res.status(500).json({
-    message: "Internal Server Error"
-  })
+      if (!referee) {
+        return res.status(404).json({
+          message: `Referee with id ${id} not  found.`,
+        });
+      }
+      await referee.update(req.body);
+      res.status(200).json(referee);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Internal Server Error",
+      });
+    }
+  };
+  remove = async (req, res) => {
+    try {
+      const id = req.params.id;
+      const referee = await Referee.findByPk(id);
+      if (!referee) {
+        return res.status(204).send({
+          message: `Referee with id ${id} not  found.`,
+        });
+      }
+      await referee.destroy();
+      res.status(200).json({
+        message: "The Referee Deleted Sucessfully",
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal Server Error" });
     }
   };
 }
