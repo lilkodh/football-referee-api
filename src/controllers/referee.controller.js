@@ -37,7 +37,7 @@ class RefereeController {
           message: `Referee with id ${id} not  found.`,
         });
       }
-      return res.status(200).json(referee);
+       res.status(200).json(referee);
     } catch (error) {
       console.error(error);
       res.status(500).json({
