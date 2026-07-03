@@ -2,7 +2,7 @@ const sequelize = require("./config/database");
 require("./models");
 const app = require("./app")
 const PORT = process.env.PORT;
-const starSserver = async () => {
+const RunServer = async () => {
     try{
         await sequelize.authenticate();
         console.log("DATABASE IS CONNECTED SUCCESSFULLY DONE ");
@@ -18,5 +18,5 @@ const starSserver = async () => {
     }
   
 };
- starSserver();
+ RunServer();
 

@@ -2,7 +2,15 @@ const { Assignment , Referee ,Match} = require("../models");
 class AssignmentController {
   getAll = async (req, res) => {
     try {
-      const assignments = await Assignment.findAll({  include:[Match,Referee]});
+      const assignments = await Assignment.findAll({  include:[
+     {
+    model: Referee,
+    attributes: ["firstName", "lastName"]
+  },
+     {
+    model: Match,
+    attributes: ["firstName", "lastName"]
+  },  ]});
     
       if (assignments.length === 0) {
         return res.status(404).json({
