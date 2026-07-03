@@ -1,13 +1,14 @@
 const { Referee } = require("../models");
 
 class RefereeController {
-  getAll = async (req, res) => {
+   getAll = async (req, res) => {
     try {
-      const status = req.query;
+      const {status, confederation} = req.query;
+      const filter = { };
       const referees = await Referee.findAll({
     
         where:{
-           status:"Active"
+           status:"Active",
         }
       });
 
