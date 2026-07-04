@@ -3,14 +3,13 @@ const { Referee } = require("../models");
 class RefereeController {
   getAll = async (req, res) => {
     try {
-      const { status, confederation } = req.query;
+    const { status, confederation, nationality, category, experience } = req.query;
       const filters = {};
-      if (status) {
-        filters.status = status;
-      }
-      if (confederation) {
-        filters.confederation = confederation;
-      }
+    if (status) filters.status = status ;
+    if(confederation) filters.confederation = confederation ;
+    if (nationality) filters.confederation = confederation ;
+    if(category) filters.category = category ;
+    if(experience) filters.experience = experience ;
 
       const referees = await Referee.findAll({
         where: filters,
