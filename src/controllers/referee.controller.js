@@ -1,33 +1,49 @@
-
 const { Referee } = require("../models");
-const {Op} = require("sequelize");
+const { Op, or } = require("sequelize");
 class RefereeController {
   getAll = async (req, res) => {
     try {
-    const { status, confederation, nationality, category, experience , search } = req.query;
+      const {
+        status,
+        confederation,
+        nationality,
+        category,
+        experience,
+        search,
+        sort,
+        order
+      } = req.query;
       const filters = {};
-    if (status) filters.status = status ;
-    if(confederation) filters.confederation = confederation ;
-    if (nationality) filters.confederation = confederation ;
-    if(category) filters.category = category ;
-    if(experience) filters.experience = experience ;
-    if(search){
-      filters[Op.or] = [
-        {
-          firstName :{
-            [Op.iLike]: `%${search}%`
-          }
-        },
-        {
-          lastName: {
-          [Op.iLike] : `%${search}%`
-          }
-        }
-      ]
-    }
+      const sortOptions={};
+      if (status) filters.status = status;
+      if (confederation) filters.confederation = confederation;
+      if (nationality) filters.confederation = confederation;
+      if (category) filters.category = category;
+      if (experience) filters.experience = experience;
+      if (search) {
+        filters[Op.or] = [
+          {
+            firstName: {
+              [Op.iLike]: `%${search}%`,
+            },
+          },
+          {
+            lastName: {
+              [Op.iLike]: `%${search}%`,
+            },
+          },
+        ];
+      };
+      if(sort) sortOptions.sort = sort ;
+      if(sort){
+        sortOptions.order = [
+          [sort,order|| "ASC"]
+        ]
+      }
 
       const referees = await Referee.findAll({
         where: filters,
+        order: sortOptions.order
       });
 
       if (referees.length === 0) {
