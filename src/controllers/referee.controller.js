@@ -1,15 +1,19 @@
 const { Referee } = require("../models");
 
 class RefereeController {
-   getAll = async (req, res) => {
+  getAll = async (req, res) => {
     try {
-      const {status, confederation} = req.query;
-      const filter = { };
+      const { status, confederation } = req.query;
+      const filters = {};
+      if (status) {
+        filters.status = status;
+      }
+      if (confederation) {
+        filters.confederation = confederation;
+      }
+
       const referees = await Referee.findAll({
-    
-        where:{
-           status:"Active",
-        }
+        where: filters,
       });
 
       if (referees.length === 0) {
@@ -44,7 +48,7 @@ class RefereeController {
           message: `Referee with id ${id} not  found.`,
         });
       }
-       res.status(200).json(referee);
+      res.status(200).json(referee);
     } catch (error) {
       console.error(error);
       res.status(500).json({
