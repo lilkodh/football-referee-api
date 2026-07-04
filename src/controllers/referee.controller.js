@@ -11,13 +11,18 @@ class RefereeController {
         experience,
         search,
         sort,
-        order
+        order,
+        page,
+        limit
       } = req.query;
       const filters = {};
       const sortOptions={};
+      const pagNumber = Number(page) || 1;
+      const limitNumber = Number(limit) || 10 ;
+      const Offset = (pagNumber - 1)*limitNumber ;
       if (status) filters.status = status;
       if (confederation) filters.confederation = confederation;
-      if (nationality) filters.confederation = confederation;
+      if (nationality) filters.nationality = nationality;
       if (category) filters.category = category;
       if (experience) filters.experience = experience;
       if (search) {
@@ -34,7 +39,6 @@ class RefereeController {
           },
         ];
       };
-      if(sort) sortOptions.sort = sort ;
       if(sort){
         sortOptions.order = [
           [sort,order|| "ASC"]
@@ -43,7 +47,10 @@ class RefereeController {
 
       const referees = await Referee.findAll({
         where: filters,
-        order: sortOptions.order
+        order: sortOptions.order,
+         limit: limitNumber,
+         offset
+        
       });
 
       if (referees.length === 0) {
