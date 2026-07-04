@@ -13,13 +13,13 @@ class RefereeController {
         sort,
         order,
         page,
-        limit
+        limit,
       } = req.query;
       const filters = {};
-      const sortOptions={};
+      const sortOptions = {};
       const pageNumber = Number(page) || 1;
-      const limitNumber = Number(limit) || 10 ;
-      const offset = (pageNumber - 1)*limitNumber ;
+      const limitNumber = Number(limit) || 10;
+      const offset = (pageNumber - 1) * limitNumber;
       if (status) filters.status = status;
       if (confederation) filters.confederation = confederation;
       if (nationality) filters.nationality = nationality;
@@ -38,19 +38,16 @@ class RefereeController {
             },
           },
         ];
-      };
-      if(sort){
-        sortOptions.order = [
-          [sort,order|| "ASC"]
-        ]
       }
-      console.log({page,limit})
+      if (sort) {
+        sortOptions.order = [[sort, order || "ASC"]];
+      }
+      console.log({ page, limit });
       const referees = await Referee.findAll({
         where: filters,
         order: sortOptions.order,
         limit: limitNumber,
-       offset
-        
+        offset,
       });
 
       if (referees.length === 0) {
