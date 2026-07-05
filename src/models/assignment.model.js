@@ -31,6 +31,18 @@ const Assignment = sequelize.define(
   {
     tableName: "assignments",
     timestamps: false,
+    indexes: [
+      {
+        fields : ["refereeId"], 
+      },
+      {
+        fields: ["matchId"],
+      },
+      {
+        unique: true,
+        fields: ["refereeId", "matchId", "role"],
+      }
+    ]
   },
 );
 module.exports = Assignment;
