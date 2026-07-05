@@ -39,7 +39,18 @@ for ( const field of requiredFields){
  next();
  };
 
+const validateMatch = (req, res , next )=>{
+const requiredFields = ["homeTeam" , "awayTeam" , "stadium" ,"hostCity" ,"matchDate" , "phase"] ;
+for (const field of requiredFields){
+    if(!req.body[field]){
+        return res.status(400).json({
+            message : `${field} is required.`
+        })
+    }
+}
+next();
+};
 
 module.exports = {
-    validateAssignment , validateReferee ,
+    validateAssignment , validateReferee , validateMatch
 }  
