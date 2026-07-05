@@ -1,6 +1,6 @@
 const { Assignment, Referee, Match } = require("../models");
 class AssignmentController {
-  getAll = async (req, res) => {
+  getAll = async (req, res, next) => {
     try {
       const assignments = await Assignment.findAll({
         include: [
@@ -10,7 +10,7 @@ class AssignmentController {
           },
           {
             model: Match,
-            attributes: ["firstName", "lastName"],
+            attributes: ["homeTeam", "awayTeam", "matchDate"],
           },
         ],
       });
@@ -22,13 +22,10 @@ class AssignmentController {
       }
       res.status(200).json(assignments);
     } catch (err) {
-      console.error(err);
-      res.status(500).json({
-        message: "Internal Server Error",
-      });
+      next(err);
     }
   };
-  create = async (req, res) => {
+  create = async (req, res, next) => {
     try {
       const { refereeId, matchId, role } = req.body;
       const referee = await Referee.findByPk(refereeId);
@@ -75,13 +72,10 @@ class AssignmentController {
       const assignment = await Assignment.create(req.body);
       res.status(201).json(assignment);
     } catch (err) {
-      console.error(err);
-      res.status(500).json({
-        message: "Internal Server Error",
-      });
+      next(err);
     }
   };
-  getById = async (req, res) => {
+  getById = async (req, res, next) => {
     try {
       const id = req.params.id;
       const assignment = await Assignment.findByPk(id);
@@ -92,13 +86,10 @@ class AssignmentController {
       }
       res.status(200).json(assignment);
     } catch (err) {
-      console.error(err);
-      res.status(500).json({
-        message: "Internal Server Error",
-      });
+      next(err);
     }
   };
-  update = async (req, res) => {
+  update = async (req, res, next) => {
     try {
       const id = req.params.id;
       const assignment = await Assignment.findByPk(id);
@@ -110,13 +101,10 @@ class AssignmentController {
       await assignment.update(req.body);
       res.status(200).json(assignment);
     } catch (err) {
-      console.error(err);
-      res.status(500).json({
-        message: "Internal Server Error",
-      });
+      next(err);
     }
   };
-  remove = async (req, res) => {
+  remove = async (req, res, next) => {
     try {
       const id = req.params.id;
       const assignment = await Assignment.findByPk(id);
@@ -130,10 +118,7 @@ class AssignmentController {
         message: `The assignment with id ${id} Deleted Successfully`,
       });
     } catch (err) {
-      console.error(err);
-      res.status(500).json({
-        message: "Internal Server Error",
-      });
+      next(err);
     }
   };
 }

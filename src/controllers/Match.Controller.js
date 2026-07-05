@@ -1,6 +1,6 @@
 const { Match } = require("../models");
 class MatchController {
-  GetAll = async (req, res) => {
+  getAll = async (req, res, next) => {
     try {
       const matches = await Match.findAll();
       if (matches.length === 0) {
@@ -10,23 +10,18 @@ class MatchController {
       }
       res.status(200).json(matches);
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Internal Server Error" });
+      next(error);
     }
   };
-  create = async (req, res) => {
+  create = async (req, res, next) => {
     try {
       const match = await Match.create(req.body);
-      console.log(match);
       res.status(201).json(match);
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({
-        message: "Internal Server Error ",
-      });
+    } catch (error) {
+      next(error);
     }
   };
-  getById = async (req, res) => {
+  getById = async (req, res, next) => {
     try {
       const id = req.params.id;
       const match = await Match.findByPk(id);
@@ -36,12 +31,11 @@ class MatchController {
           .json({ message: `the match with id ${id} is not found ` });
       }
       res.status(200).json(match);
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: "Internal Server Error " });
+    } catch (error) {
+      next(error);
     }
   };
-  update = async (req, res) => {
+  update = async (req, res, next) => {
     try {
       const id = req.params.id;
       const match = await Match.findByPk(id);
@@ -54,13 +48,10 @@ class MatchController {
       await match.update(req.body);
       res.status(200).json(match);
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Internal Server Error",
-      });
+      next(error);
     }
   };
-  remove = async () => {
+  remove = async (req, res, next) => {
     try {
       const id = req.params.id;
       const match = await Match.findByPk(id);
@@ -73,9 +64,8 @@ class MatchController {
       res.status(200).json({
         message: "The Match Deleted Successfully",
       });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: "Internal Server Error" });
+    } catch (error) {
+      next(error);
     }
   };
 }
