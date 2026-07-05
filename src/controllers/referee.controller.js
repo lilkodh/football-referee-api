@@ -1,4 +1,4 @@
-const { Referee } = require("../models");
+const { Referee, Assignment, Match } = require("../models");
 const { Op, or } = require("sequelize");
 class RefereeController {
   getAll = async (req, res, next) => {
@@ -60,10 +60,49 @@ class RefereeController {
       next(error);
     }
   };
+
   create = async (req, res, next) => {
     try {
       const referee = await Referee.create(req.body);
       res.status(201).json(referee);
+    } catch (error) {
+      next(error);
+    }
+  };
+  getMatchesByReferee = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+
+      const referee = await Referee.findByPk(id, {
+        include: [
+          {
+            model: Assignment,
+            attributes: ["role"],
+            include: [
+              {
+                model: Match,
+                attributes: [
+                  "id",
+                  "homeTeam",
+                  "awayTeam",
+                  "stadium",
+                  "hostCity",
+                  "matchDate",
+                  "phase",
+                ],
+              },
+            ],
+          },
+        ],
+      });
+
+      if (!referee) {
+        return res.status(404).json({
+          message: `Referee with id ${id} not found.`,
+        });
+      }
+
+      res.status(200).json(referee);
     } catch (error) {
       next(error);
     }

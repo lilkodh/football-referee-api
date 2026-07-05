@@ -7,7 +7,9 @@ const RunServer = async () => {
     try{
         await sequelize.authenticate();
         console.log("DATABASE IS CONNECTED SUCCESSFULLY DONE ");
-        await sequelize.sync();
+        await sequelize.sync({
+            alter:true
+        });
         console.log("DATABASE SYNCHRONIZED")
       
         app.listen(PORT,()=>{

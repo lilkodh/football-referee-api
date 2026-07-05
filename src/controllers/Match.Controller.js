@@ -1,4 +1,4 @@
-const { Match } = require("../models");
+const { Match, Assignment, Referee } = require("../models");
 class MatchController {
   getAll = async (req, res, next) => {
     try {
@@ -13,6 +13,43 @@ class MatchController {
       next(error);
     }
   };
+  getRefereesByMatch = async (req, res, next) => {
+    try {
+      const { id } = req.params;
+
+      const match = await Match.findByPk(id, {
+        include: [
+          {
+            model: Assignment,
+            attributes: ["role"],
+            include: [
+              {
+                model: Referee,
+                attributes: [
+                  "id",
+                  "firstName",
+                  "lastName",
+                  "category",
+                  "nationality",
+                ],
+              },
+            ],
+          },
+        ],
+      });
+
+      if (!match) {
+        return res.status(404).json({
+          message: `Match with id ${id} not found.`,
+        });
+      }
+
+      res.status(200).json(match);
+    } catch (error) {
+      next(error);
+    }
+  };
+
   create = async (req, res, next) => {
     try {
       const match = await Match.create(req.body);
@@ -21,6 +58,7 @@ class MatchController {
       next(error);
     }
   };
+
   getById = async (req, res, next) => {
     try {
       const id = req.params.id;

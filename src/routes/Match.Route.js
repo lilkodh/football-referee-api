@@ -4,6 +4,7 @@ const MatchController = require("../controllers/Match.Controller");
 const {validateMatch} = require("../middlewares/validate.middleware")
 router.get("/", MatchController.getAll);
 router.post("/", validateMatch,MatchController.create);
+router.get("/:id/referees", MatchController.getRefereesByMatch);
 router.get("/:id", MatchController.getById);
 router.put("/:id", MatchController.update)
 router.delete("/:id", MatchController.remove)
