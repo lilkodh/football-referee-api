@@ -21,7 +21,25 @@ const validateAssignment = (req, res, next) => {
 
   next();
 };
+ const validateReferee = ( req ,res ,next )=>{
+const requiredFields = [
+    "firstName",
+    "lastName",
+    "nationality",
+    "category",
+    "confederation",
+    "status",
+    "experience"
+];
+for ( const field of requiredFields){
+    if (!req.body[field]){
+        return res.status(400).json({message :`${field} is required `});
+    }
+}
+ next();
+ };
+
 
 module.exports = {
-    validateAssignment ,
-}
+    validateAssignment , validateReferee ,
+}  
