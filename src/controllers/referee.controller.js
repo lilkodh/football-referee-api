@@ -1,7 +1,7 @@
 const { Referee } = require("../models");
 const { Op, or } = require("sequelize");
 class RefereeController {
-  getAll = async (req, res) => {
+  getAll = async (req, res, next) => {
     try {
       const {
         status,
@@ -57,23 +57,18 @@ class RefereeController {
       }
       res.json(referees);
     } catch (error) {
-      res.status(500).json({
-        message: "Internal Srver Error",
-      });
+      next(error);
     }
   };
-  create = async (req, res) => {
+  create = async (req, res, next) => {
     try {
       const referee = await Referee.create(req.body);
       res.status(201).json(referee);
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Internal Server Error",
-      });
+      next(error);
     }
   };
-  getById = async (req, res) => {
+  getById = async (req, res, next) => {
     try {
       const id = req.params.id;
       const referee = await Referee.findByPk(id);
@@ -84,13 +79,10 @@ class RefereeController {
       }
       res.status(200).json(referee);
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Internal Server Error",
-      });
+      next(error);
     }
   };
-  update = async (req, res) => {
+  update = async (req, res, next) => {
     try {
       const id = req.params.id;
       const referee = await Referee.findByPk(id);
@@ -103,18 +95,15 @@ class RefereeController {
       await referee.update(req.body);
       res.status(200).json(referee);
     } catch (error) {
-      console.error(error);
-      res.status(500).json({
-        message: "Internal Server Error",
-      });
+      next(error);
     }
   };
-  remove = async (req, res) => {
+  remove = async (req, res, next) => {
     try {
       const id = req.params.id;
       const referee = await Referee.findByPk(id);
       if (!referee) {
-        return res.status(204).send({
+        return res.status(404).send({
           message: `Referee with id ${id} not  found.`,
         });
       }
@@ -123,8 +112,7 @@ class RefereeController {
         message: "The Referee Deleted Sucessfully",
       });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Internal Server Error" });
+      next(error);
     }
   };
 }

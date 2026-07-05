@@ -21,36 +21,45 @@ const validateAssignment = (req, res, next) => {
 
   next();
 };
- const validateReferee = ( req ,res ,next )=>{
-const requiredFields = [
+const validateReferee = (req, res, next) => {
+  const requiredFields = [
     "firstName",
     "lastName",
     "nationality",
     "category",
     "confederation",
     "status",
-    "experience"
-];
-for ( const field of requiredFields){
-    if (!req.body[field]){
-        return res.status(400).json({message :`${field} is required `});
+    "experience",
+  ];
+  for (const field of requiredFields) {
+    if (!req.body[field]) {
+      return res.status(400).json({ message: `${field} is required ` });
     }
-}
- next();
- };
+  }
+  next();
+};
 
-const validateMatch = (req, res , next )=>{
-const requiredFields = ["homeTeam" , "awayTeam" , "stadium" ,"hostCity" ,"matchDate" , "phase"] ;
-for (const field of requiredFields){
-    if(!req.body[field]){
-        return res.status(400).json({
-            message : `${field} is required.`
-        })
+const validateMatch = (req, res, next) => {
+  const requiredFields = [
+    "homeTeam",
+    "awayTeam",
+    "stadium",
+    "hostCity",
+    "matchDate",
+    "phase",
+  ];
+  for (const field of requiredFields) {
+    if (!req.body[field]) {
+      return res.status(400).json({
+        message: `${field} is required.`,
+      });
     }
-}
-next();
+  }
+  next();
 };
 
 module.exports = {
-    validateAssignment , validateReferee , validateMatch
-}  
+  validateAssignment,
+  validateReferee,
+  validateMatch,
+};

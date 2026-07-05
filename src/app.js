@@ -1,5 +1,6 @@
 const express = require("express");
 const logger = require("./middlewares/logger.middleware");
+const errorHandler = require("./middlewares/error.middleware")
 const app = express();
 const refereesRoute = require("./routes/Referees.Route");
 const MatchesRoute = require("./routes/Match.Route");
@@ -10,5 +11,6 @@ app.use("/referees", refereesRoute);
 app.use("/matches", MatchesRoute);
 app.use("/assignments", AssignmentsRoute);
 
+app.use(errorHandler);
 
 module.exports = app ;
