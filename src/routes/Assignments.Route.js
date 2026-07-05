@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const AssignmentController = require("../controllers/Asignment.Controller");
+const AssignmentController = require("../controllers/Assignment.Controller");
 const {validateAssignment} = require("../middlewares/validate.middleware")
 router.get("/", AssignmentController.getAll);
 router.post("/",validateAssignment, AssignmentController.create);
