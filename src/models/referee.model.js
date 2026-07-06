@@ -47,6 +47,11 @@ const Referee = sequelize.define("Referee",
     type: DataTypes.ENUM("Active", "Suspended", "Injured", "Retired"),
     allowNull: false,
   },
+  userId:{
+    type: DataTypes.INTEGER,
+    allowNull:true,
+    unique:true,
+  }
 },
  {
     tableName: "referees",

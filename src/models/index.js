@@ -1,6 +1,7 @@
 const Referee = require("./referee.model");
 const Match = require("./match.model");
 const Assignment = require("./assignment.model");
+const User = require("./user.model");
 
 Referee.hasMany(Assignment, {
   foreignKey: "refereeId",
@@ -14,4 +15,10 @@ Match.hasMany(Assignment, {
 Assignment.belongsTo(Match, {
   foreignKey: "matchId",
 });
-module.exports = {Referee,Match,Assignment};
+User.hasOne(Referee,{
+  foreignKey:"userId"
+});
+Referee.belongsTo(User,{
+  foreignKey:"userId",
+});
+module.exports = {Referee,Match,Assignment , User };
