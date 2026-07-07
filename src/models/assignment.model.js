@@ -46,3 +46,7 @@ const Assignment = sequelize.define(
   },
 );
 module.exports = Assignment;
+
+
+
+

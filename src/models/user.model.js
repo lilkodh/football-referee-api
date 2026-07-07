@@ -22,7 +22,7 @@ password:{
         type: DataTypes.STRING,
         allowNull:false,
       },
-      roel:{
+      role:{
         type: DataTypes.ENUM(
             "admin",
             "commissioner",
