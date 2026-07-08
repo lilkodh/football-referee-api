@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const { User } = require("../models");
+const jwt = require('jsonwebtoken');   
 class AuthController {
     register = async (req , res , next )=>{
 try{
@@ -25,7 +26,46 @@ try{
 }catch(error){
 next(error);
 }
+    };
+    login = async (req,res,next ) =>{
+        try{const {email, password } = req.body;
+        const account = await User.findOne({
+            where : {
+                email,
+            },
+        });
+        if(!account) {
+            return res.status(401).json({
+                message: "Invalid email or password.",
+            })
+        }
+        const isPasswordValid = await bcrypt.compare(
+            password,
+            account.password
+        );
+        if(!isPasswordValid){
+            return res.status(401).json({
+                 message: "Invalid email or password.",
+            });
+            
+        }
+        const token = jwt.sign(
+            {
+                id : account.id,
+                role: account.role,
+            },
+            process.env.JWT_SECRET,
+        {
+            expiresIn:"1h",
+        }
+        
+        );
+        return res.status(200).json({token,})
+    } catch(error){
+        next(error);
     }
+        
+    };
 
 }
 
