@@ -1,14 +1,46 @@
 const express = require("express");
 const router = express.Router();
 const RefereeController = require("../controllers/Referee.controller");
-const {validateReferee} = require("../middlewares/validate.middleware");
+const { validateReferee } = require("../middlewares/validate.middleware");
 const authenticate = require("../middlewares/authenticate.middleware");
-router.get("/", authenticate, RefereeController.getAll);
-router.post("/", validateReferee,RefereeController.create);
-router.get("/:id/matches", RefereeController.getMatchesByReferee);
-router.put("/:id", RefereeController.update);
-router.get("/:id", RefereeController.getById);
-router.delete("/:id", RefereeController.remove);
-
+const authorize = require("../middlewares/authorize.middleware");
+router.get(
+  "/",
+  authenticate,
+  authorize("admin", "commissioner", "referee", "consultation"),
+  RefereeController.getAll,
+);
+router.post(
+  "/",
+  authenticate,
+  authorize("admin", "commissioner"),
+  validateReferee,
+  RefereeController.create,
+);
+router.get(
+  "/:id/matches",
+  authenticate,
+  authorize("admin", "commissioner", "referee", "consultation"),
+  RefereeController.getMatchesByReferee,
+);
+router.put(
+  "/:id",
+  authenticate,
+  authorize("admin", "commissioner"),
+  validateReferee,
+  RefereeController.update,
+);
+router.get(
+  "/:id",
+  authenticate,
+  authorize("admin", "commissioner", "referee", "consultation"),
+  RefereeController.getById,
+);
+router.delete(
+  "/:id",
+  authenticate,
+  authorize("admin"),
+  RefereeController.remove,
+);
 
 module.exports = router;
