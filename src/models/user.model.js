@@ -27,7 +27,7 @@ password:{
             "admin",
             "commissioner",
             "referee",
-            "viewer"
+            "consultation",
         ),
         allowNull:false
       },
