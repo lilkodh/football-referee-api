@@ -66,6 +66,21 @@ next(error);
     }
         
     };
+    me = async (req,res,next)=>{
+        try{
+ const user = User.findByPk(req.user.id);
+ if(!user){
+    return res.status(404).json({
+        message: "User not found ."
+    })
+ }
+ const userData = await user.toJSON();
+ delete userData.password
+ return res.status(200).json(userData);
+        } catch(error){
+               next(error)
+        }
+    }
 
 }
 
