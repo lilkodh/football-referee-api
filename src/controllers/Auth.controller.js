@@ -3,6 +3,7 @@ const { User } = require("../models");
 const jwt = require("jsonwebtoken");
 const { USE } = require("sequelize/lib/index-hints");
 const { json } = require("sequelize");
+const fs = require("fs/promises");
 class AuthController {
   register = async (req, res, next) => {
     try {
@@ -38,12 +39,21 @@ class AuthController {
         },
       });
       if (!account) {
+         await fs.appendFile(
+         "src/logs/login.log",
+  `${new Date().toISOString()} | ${email} | FAILED\n`
+       )
         return res.status(401).json({
           message: "Invalid email or password.",
         });
       }
+      
       const isPasswordValid = await bcrypt.compare(password, account.password);
       if (!isPasswordValid) {
+        await fs.appendFile(
+  "src/logs/login.log",
+  `${new Date().toISOString()} | ${email} | FAILED\n`
+);
         return res.status(401).json({
           message: "Invalid email or password.",
         });
@@ -58,6 +68,10 @@ class AuthController {
           expiresIn: "1h",
         },
       );
+      await fs.appendFile(
+    "src/logs/login.log",
+    `${new Date().toISOString()} | ${email} | SUCCESS\n`
+);
       return res.status(200).json({ token });
     } catch (error) {
       next(error);
@@ -73,7 +87,7 @@ class AuthController {
       }
       const userData = user.toJSON();
       delete userData.password;
-      return res.status(201).json(userData);
+      return res.status(200).json(userData);
     } catch (error) {
       next(error);
     }
