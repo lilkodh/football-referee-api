@@ -1,12 +1,12 @@
-const { z, email } = require("zod");
+const { z, } = require("zod");
 const userRegistrationSchema = z.object({
   name: z.string().min(4),
-  email: z.string().email(),
-  password: z.string().min(8),
+  email: z.string(),
+  password: z.string().min(4),
   role: z.enum(["admin", "commissioner", "referee", "consultation"]),
 });
 const userLoginSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(8),
+  password: z.string().min(4),
 });
 module.exports = { userLoginSchema, userRegistrationSchema };

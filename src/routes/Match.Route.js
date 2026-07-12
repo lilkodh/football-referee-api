@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const MatchController = require("../controllers/Match.Controller");
-const { validateMatch } = require("../middlewares/validate.middleware");
 const authenticate = require("../middlewares/authenticate.middleware");
 const authorize = require("../middlewares/authorize.middleware");
 const zodValidate = require("../middlewares/zodValidate.middleware");

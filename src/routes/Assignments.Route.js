@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const AssignmentController = require("../controllers/Assignment.Controller");
-const { validateAssignment } = require("../middlewares/validate.middleware");
 const authenticate = require("../middlewares/authenticate.middleware");
 const authorize = require("../middlewares/authorize.middleware");
 const zodValidate = require("../middlewares/zodValidate.middleware");
