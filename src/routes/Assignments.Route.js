@@ -4,6 +4,8 @@ const AssignmentController = require("../controllers/Assignment.Controller");
 const { validateAssignment } = require("../middlewares/validate.middleware");
 const authenticate = require("../middlewares/authenticate.middleware");
 const authorize = require("../middlewares/authorize.middleware");
+const zodValidate = require("../middlewares/zodValidate.middleware");
+const { assignmentSchema } = require("../schemas/assignment.schema");
 router.get(
   "/",
   authenticate,
@@ -14,7 +16,7 @@ router.post(
   "/",
   authenticate,
   authorize("admin", "commissioner"),
-  validateAssignment,
+ zodValidate(assignmentSchema),
   AssignmentController.create,
 );
 router.get(
@@ -27,7 +29,7 @@ router.put(
   "/:id",
   authenticate,
   authorize("admin", "commissioner"),
-  validateAssignment,
+  zodValidate(assignmentSchema),
   AssignmentController.update,
 );
 router.delete(
