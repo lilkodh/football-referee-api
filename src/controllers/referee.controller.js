@@ -154,5 +154,37 @@ class RefereeController {
       next(error);
     }
   };
+  getMyMatch = async  (req,res,next) =>{
+    try{
+const user = await User.findByPk(req.user.id);
+   if (!user) {
+      return res.status(404).json({
+        message: "User not found.",
+      });
+    }
+    if (!user.refereeId) {
+  return res.status(404).json({
+    message: "No referee is linked to this account.",
+  });
+}
+const referee = await Referee.findByPk(user.refereeId, {
+  include: {
+    model: Match,
+    through: {
+      attributes: ["role"],
+    },
+  },
+});
+
+if (!referee) {
+  return res.status(404).json({
+    message: "Referee not found.",
+  });
+}
+return res.status(200).json(referee);
+    } catch(error){
+        next(error);
+    }
+  }
 }
 module.exports = new RefereeController();

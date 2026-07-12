@@ -1,5 +1,6 @@
 const sequelize = require("../config/database");
 const { DataTypes } = require("sequelize");
+const Referee = require("./referee.model");
 const User =  sequelize.define("user", {
 id : {
     type: DataTypes.INTEGER,
@@ -31,6 +32,13 @@ password:{
         ),
         allowNull:false
       },
+     
+      refereeId: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    unique: true,
+    
+},
 },
 {
 tableName:"users",

@@ -19,6 +19,12 @@ router.post(
   RefereeController.create,
 );
 router.get(
+  "/me/matches",
+  authenticate,
+  authorize("referee"),
+  RefereeController.getMyMatch,
+);
+router.get(
   "/:id/matches",
   authenticate,
   authorize("admin", "commissioner", "referee", "consultation"),
@@ -28,7 +34,7 @@ router.put(
   "/:id",
   authenticate,
   authorize("admin", "commissioner"),
- zodValidate(refereeSchema),
+  zodValidate(refereeSchema),
   RefereeController.update,
 );
 router.get(

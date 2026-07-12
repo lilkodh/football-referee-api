@@ -21,4 +21,10 @@ User.hasOne(Referee,{
 Referee.belongsTo(User,{
   foreignKey:"userId",
 });
+User.belongsTo(Referee, {
+  foreignKey:"refereeId",
+});
+Referee.hasOne(User,{
+  foreignKey: "refereeId",
+});
 module.exports = {Referee,Match,Assignment , User };

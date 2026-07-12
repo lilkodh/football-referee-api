@@ -4,6 +4,7 @@ const userRegistrationSchema = z.object({
   email: z.string(),
   password: z.string().min(6),
   role: z.enum(["admin", "commissioner", "referee", "consultation"]),
+  refereeId: z.coerce.number().int().positive().optional(),
 });
 const userLoginSchema = z.object({
   email: z.string().min(8),

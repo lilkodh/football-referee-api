@@ -7,7 +7,7 @@ const fs = require("fs/promises");
 class AuthController {
   register = async (req, res, next) => {
     try {
-      const { name, email, password, role } = req.body;
+      const { name, email, password, role , refereeId } = req.body;
       const account = await User.findOne({
         where: { email },
       });
@@ -22,6 +22,7 @@ class AuthController {
         email,
         password: secretPassword,
         role,
+        refereeId
       });
       const userData = user.toJSON();
       delete userData.password;
@@ -62,6 +63,7 @@ class AuthController {
         {
           id: account.id,
           role: account.role,
+          refereeId: account.refereeId,
         },
         process.env.JWT_SECRET,
         {
