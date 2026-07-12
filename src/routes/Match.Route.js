@@ -4,6 +4,8 @@ const MatchController = require("../controllers/Match.Controller");
 const { validateMatch } = require("../middlewares/validate.middleware");
 const authenticate = require("../middlewares/authenticate.middleware");
 const authorize = require("../middlewares/authorize.middleware");
+const zodValidate = require("../middlewares/zodValidate.middleware");
+const { matchSchema } = require("../schemas/match.schema");
 router.get(
   "/",
   authenticate,
@@ -14,7 +16,7 @@ router.post(
   "/",
   authenticate,
   authorize("admin", "commissioner"),
-  validateMatch,
+  zodValidate(matchSchema),
   MatchController.create,
 );
 router.get(
@@ -33,7 +35,7 @@ router.put(
   "/:id",
   authenticate,
   authorize("admin", "commissioner"),
-  validateMatch,
+  zodValidate(matchSchema),
   MatchController.update,
 );
 router.delete("/:id", authenticate, authorize("admin"), MatchController.remove);
