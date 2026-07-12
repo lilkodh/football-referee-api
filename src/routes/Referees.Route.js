@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const RefereeController = require("../controllers/Referee.controller");
-const { validateReferee } = require("../middlewares/validate.middleware");
+const zodValidate = require("../middlewares/zodValidate.middleware");
+const { refereeSchema } = require("../schemas/referee.schema");
 const authenticate = require("../middlewares/authenticate.middleware");
 const authorize = require("../middlewares/authorize.middleware");
 router.get(
@@ -14,7 +15,7 @@ router.post(
   "/",
   authenticate,
   authorize("admin", "commissioner"),
-  validateReferee,
+  zodValidate(refereeSchema),
   RefereeController.create,
 );
 router.get(
@@ -27,7 +28,7 @@ router.put(
   "/:id",
   authenticate,
   authorize("admin", "commissioner"),
-  validateReferee,
+ zodValidate(refereeSchema),
   RefereeController.update,
 );
 router.get(
