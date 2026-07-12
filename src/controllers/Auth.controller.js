@@ -1,6 +1,8 @@
 const bcrypt = require("bcrypt");
 const { User } = require("../models");
 const jwt = require("jsonwebtoken");
+const { USE } = require("sequelize/lib/index-hints");
+const { json } = require("sequelize");
 class AuthController {
   register = async (req, res, next) => {
     try {
@@ -75,6 +77,27 @@ class AuthController {
     } catch (error) {
       next(error);
     }
-  };
+  }
+  changePassword = async (req,res) =>{
+    const {currentPassword, newPassword} = req.body;
+    const id = req.user.id;
+    const user = await User.findByPk(id)
+    if(!user){
+      return res.status(404).json({message : " User not Found ."})
+    }
+    const isMatch = await bcrypt.compare(
+      currentPassword,
+      user.password
+    );
+    if (!isMatch) {
+      return res.status(400).json({message: "Current password is incorrect."})
+    }
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+     user.password = hashedPassword ;
+     await user.save();
+     return res.status(200).json({
+      message: "Password changed successfully."
+     })
+  }
 }
 module.exports = new AuthController();

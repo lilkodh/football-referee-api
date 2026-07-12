@@ -6,7 +6,7 @@ const authorize = require("../middlewares/authorize.middleware");
 const zodValidate = require("../middlewares/zodValidate.middleware");
 const {
   userRegistrationSchema,
-  userLoginSchema,
+  userLoginSchema,changePasswordSchema
 } = require("../schemas/auth.schema");
 
 router.post(
@@ -19,5 +19,11 @@ router.post(
 router.post("/login", zodValidate(userLoginSchema),AuthController.login);
 
 router.get("/me", authenticate, AuthController.me);
+router.put(
+  "/change-password",
+  zodValidate(changePasswordSchema),
+  authenticate,
+  AuthController.changePassword
+);
 
 module.exports = router;
